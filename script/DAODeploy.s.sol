@@ -9,7 +9,7 @@ contract DAODeploy is Script {
         uint256 pk = vm.envUint("PRIVATE_KEY");
         address governanceToken = vm.envAddress("TOKEN_CONTRACT_ADDRESS");
 
-        vm.startBroadcast();
+        vm.startBroadcast(pk);
         DAOContract dao = new DAOContract(
             governanceToken,
             1000 * 10**12, // my token decimals
