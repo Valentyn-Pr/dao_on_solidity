@@ -2,8 +2,10 @@
 pragma solidity ^0.8.13;
 
 import {Test} from "forge-std/Test.sol";
+import "forge-std/console.sol";
 import {DAOContract} from "../src/DAOContract.sol";
 import {ERC20} from "../lib/openzeppelin-contracts/contracts/token/ERC20/ERC20.sol";
+
 
 contract MockGovToken is ERC20 {
     constructor() ERC20("GovToken", "GT") {}
@@ -38,10 +40,12 @@ contract CounterTest is Test {
     }
 
     function test_create_proposal() public {
+        bytes memory proposal_code = abi.encodeWithSelector(bytes4(keccak256("setTheX(uint8)")), uint8(27));
         dao.createProposal(
             "Hi folks, I propose to set theX variable ot 27 - my age eventually. proposalCode is keccak256 for setTheX(uint8) with argument 27",
-            abi.encodeWithSelector(bytes4(keccak256("setTheX(uint8)")), uint8(27))
+            proposal_code
         );
+        console.logBytes(proposal_code);
         assert(dao.proposalCount() == 1);
     }
 
